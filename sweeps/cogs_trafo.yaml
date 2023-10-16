@@ -35,11 +35,7 @@ parameters:
   stop_after:
     value: 15000
   seed:
-    distribution: categorical
-    values:
-      - 0
-      - 42
-      - 123
+    value: 42
   sweep_id_for_grid_search:
     distribution: categorical
     values:

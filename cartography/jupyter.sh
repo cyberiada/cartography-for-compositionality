@@ -26,13 +26,16 @@
 #
 # -= Resources =-
 #
-
-#SBATCH --job-name=JupiterNotebook
+#SBATCH --job-name=wandb_s2s_comp
 #SBATCH --nodes 1
-#SBATCH --ntasks-per-node=1
-#SBATCH --partition=mid
+#SBATCH --ntasks-per-node=4
+#SBATCH --partition=ai
+#SBATCH --account=ai
+#SBATCH --qos=ai
+#SBATCH --mem=48G
+#SBATCH --gres=gpu:tesla_t4:1
 #SBATCH --time=12:00:00
-#SBATCH --output=jupyter-%J.log
+#SBATCH --output=jupyter.log
 
 # Please read before you run: http://login.kuacc.ku.edu.tr/#h.3qapvarv2g49
 

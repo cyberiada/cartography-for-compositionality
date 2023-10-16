@@ -14,7 +14,7 @@ def register_args(parser: framework.helpers.ArgumentParser):
     parser.add_argument("-dropout", default=0.0)
     parser.add_argument("-grad_clip", default="1.0", parser=parser.float_or_none_parser)
     parser.add_argument("-scan.train_split", default="simple", parser=parser.str_list_parser)
-    parser.add_argument("-scan.length_cutoff", default=22)
+    parser.add_argument("-scan.length_cutoff", default=26)
     parser.add_argument("-layer_sizes", default="800,800,256", parser=parser.int_list_parser)
     parser.add_argument("-transformer.n_heads", default=4)
     parser.add_argument("-transformer.variant", default="scaledinit")
@@ -41,6 +41,8 @@ def register_args(parser: framework.helpers.ArgumentParser):
     parser.add_argument("-max_length_per_batch", default="none", parser=parser.int_or_none_parser)
     parser.add_argument("-log_sample_level_loss", default=False)
     parser.add_argument("-indices_path", default="none", parser=parser.str_or_none_parser)
+    parser.add_argument("-starting_percent", default=0.04)
+    parser.add_argument("-increase_scale", default=1.9)
 
     parser.add_profile([
         parser.Profile("cfq_trafo", {
