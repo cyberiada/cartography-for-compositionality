@@ -1,0 +1,13 @@
+.idea
+save
+__pycache__
+wandb
+cache
+slurm_logs/
+scores/
+cartography/*.log
+cartography/.ipynb_checkpoints/
+cartography/plots/
+*/__pycache__
+*/*/__pycache__
+
