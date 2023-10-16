@@ -110,7 +110,6 @@ class Task:
 
         assert False, "Wrong dataset name or task definition"
 
-
     def subset_training(self) -> bool:
         return self.helper.args.indices_path is not None
 
@@ -125,10 +124,22 @@ class Task:
 
     def create_train_loader(self, loader: torch.utils.data.Dataset, seed: Optional[int] = None) \
                             -> torch.utils.data.DataLoader:
+        
+        if self.indices_path is not None:
+            # create training curriculum
+            curriculum = framework.loader.sampler.Curriculum(
+                dataset_size=len(loader),
+                batch_size=self.helper.args.batch_size,
+                total_steps=self.helper.args.stop_after,
+                bin_count=self.helper.args.bin_count
+            )
+        else:
+            curriculum = None
 
         return torch.utils.data.DataLoader(loader, batch_size=self.helper.args.batch_size,
                                            sampler=framework.loader.sampler.InfiniteSampler(
-                                               loader, seed=seed, indices_path=self.indices_path),
+                                               loader, self.helper.args.batch_size, seed=seed, 
+                                               indices_path=self.indices_path, curriculum=curriculum),
                                            collate_fn=framework.loader.collate.VarLengthCollate(
                                                batch_dim=self.batch_dim),
                                            num_workers=self.TRAIN_NUM_WORKERS, pin_memory=True)
@@ -369,7 +380,7 @@ class Task:
     def save_scores(self, res: EncoderDecoderResult, bleus: List[float], step_idx: int, out_str: List[str], epoch: int, store_path: str="scores"):
         file_types = ["chia", "ppl", "idx", "bleu"]
 
-        store_dir_path = os.path.join(store_path, str(self.helper.args.seed), self.task_name)
+        store_dir_path = os.path.join(store_path, self.task_name)
         os.makedirs(store_dir_path, exist_ok=True)
         
         for ftype in file_types:
@@ -395,7 +406,7 @@ class Task:
 
 
     def save_idx_to_sentences(self, idx_to_sentences: Dict[int, Dict[str, str]], store_path: str="scores", add_arg=""):
-        store_dir_path = os.path.join(store_path, str(self.helper.args.seed), self.task_name)
+        store_dir_path = os.path.join(store_path, self.task_name)
         os.makedirs(store_dir_path, exist_ok=True)
         file_name = os.path.join(store_dir_path, f"idx_to_sentences{add_arg}.pickle")
 
@@ -436,6 +447,8 @@ class Task:
         batch_count = math.ceil(len(self.train_set) / self.helper.args.batch_size)
 
         self.data_iter = iter(self.train_loader)
+        
+        self.train_loader.sampler.curriculum.reset()
 
         idx_to_sentences: Dict[int, Dict[str, str]] = {} # idx -> {"in": "Who is ..?", "out": "SELECT DISTINCT .."}
 

@@ -57,8 +57,10 @@ class TransformerEncDecInterface(ModelInterface):
 
         teacher_forcing = teacher_forcing and self.model.training # clearer
 
+        # print(f"max_len: {out_len.max().item()}, out_with_eos.shape: {out_with_eos.shape}")
+
         res = self.model(in_with_eos.transpose(0, 1), in_len, out_with_eos.transpose(0, 1),
-                         out_len, teacher_forcing=teacher_forcing, max_len=out_len.max().item())
+                         out_len, teacher_forcing=teacher_forcing, max_len=out_with_eos.shape[0])
 
         # This __call__ is for each decoding step, so with EncoderDecoderResult.merge they are merged
         res.data = res.data.transpose(0, 1)
