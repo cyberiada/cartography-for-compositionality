@@ -63,12 +63,5 @@ In case some tasks won't fit on your GPU, play around with "-max_length_per_batc
   
 ### BibTex
 ```
-@inproceedings{csordas2021devil,
-      title={The Devil is in the Detail: Simple Tricks Improve Systematic Generalization of Transformers}, 
-      author={R\'obert Csord\'as and Kazuki Irie and J\"urgen Schmidhuber},
-      booktitle={Proc. Conf. on Empirical Methods in Natural Language Processing (EMNLP)},
-      year={2021},
-      month={November},
-      address={Punta Cana, Dominican Republic}
-}
+To be added...
 ```
