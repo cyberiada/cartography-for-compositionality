@@ -63,5 +63,11 @@ In case some tasks won't fit on your GPU, play around with "-max_length_per_batc
   
 ### BibTex
 ```
-To be added...
-```
+@misc{i̇nce2023harnessing,
+      title={Harnessing Dataset Cartography for Improved Compositional Generalization in Transformers}, 
+      author={Osman Batur İnce and Tanin Zeraati and Semih Yagcioglu and Yadollah Yaghoobzadeh and Erkut Erdem and Aykut Erdem},
+      year={2023},
+      eprint={2310.12118},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}```
